@@ -2,6 +2,7 @@ import { defineConfig } from "eslint/config";
 import eslint from "@eslint/js";
 import ts from "typescript-eslint";
 import svelte from "eslint-plugin-svelte";
+import globals from "globals";
 
 export default defineConfig({
   files: ["src/**/*.{ts,svelte}"],
@@ -11,6 +12,7 @@ export default defineConfig({
       parser: ts.parser,
       extraFileExtensions: [".svelte"],
     },
+    globals: { ...globals.browser, ...globals.node },
   },
   extends: [
     eslint.configs.recommended,
