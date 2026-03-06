@@ -1,4 +1,5 @@
 <script lang="ts">
+  import "~/style.css";
   import icon from "~/icon.svg";
 
   const { children } = $props();

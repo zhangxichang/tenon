@@ -1,1 +1,3 @@
-<h1>你好世界</h1>
+<div class="absolute w-dvw h-dvh flex">
+  <span>你好，世界</span>
+</div>
