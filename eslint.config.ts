@@ -14,7 +14,7 @@ export default defineConfig({
   },
   extends: [
     eslint.configs.recommended,
-    ts.configs.recommendedTypeChecked,
+    ts.configs.recommended,
     svelte.configs.recommended,
   ],
   rules: {

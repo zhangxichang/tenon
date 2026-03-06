@@ -2,5 +2,10 @@ import adapter from "@sveltejs/adapter-static";
 import type { Config } from "@sveltejs/kit";
 
 export default {
-  kit: { adapter: adapter() },
+  kit: {
+    adapter: adapter(),
+    alias: {
+      "~": "src",
+    },
+  },
 } satisfies Config;
