@@ -2,10 +2,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite dev",
     "prepare": "svelte-kit sync",
     "build": "bun run check && vite build",
-    "preview": "vite preview",
+    "preview": "go run .",
     "check": "run-p 'check:*'",
     "check:tsc": "svelte-check",
     "check:eslint": "eslint src"

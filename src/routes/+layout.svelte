@@ -1,8 +1,11 @@
 <script lang="ts">
   import "~/style.css";
   import icon from "~/icon.svg";
+  import type { Snippet } from "svelte";
 
-  const { children } = $props();
+  const props: {
+    children: Snippet;
+  } = $props();
 </script>
 
 <svelte:head>
@@ -10,4 +13,6 @@
   <title>Tenon</title>
 </svelte:head>
 
-{@render children()}
+<div class="absolute w-dvw h-dvh flex flex-col">
+  {@render props.children()}
+</div>

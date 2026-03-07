@@ -1,3 +1,10 @@
-<div class="absolute w-dvw h-dvh flexjustify-center items-center">
-  <span class="font-bold text-lg">你好，世界</span>
-</div>
+<script lang="ts">
+  import TaskBoard from "~/components/TaskBoard.svelte";
+
+  type View = "TaskBoard";
+  const view = $state<View>("TaskBoard");
+</script>
+
+{#if view === "TaskBoard"}
+  <TaskBoard />
+{/if}
