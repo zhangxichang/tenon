@@ -11,4 +11,9 @@ export default defineConfig({
     format: "es",
   },
   plugins: [tailwindcss(), svelte()],
+  resolve: {
+    alias: {
+      "~": "/src",
+    },
+  },
 });
