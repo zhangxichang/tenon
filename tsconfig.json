@@ -1,4 +1,5 @@
 {
+  "include": ["src", "*.ts"],
   "compilerOptions": {
     "paths": {
       "~/*": ["./src/*"]
@@ -6,11 +7,10 @@
     "target": "esnext",
     "module": "esnext",
     "lib": ["ESNext", "DOM", "DOM.AsyncIterable"],
-    "jsx": "preserve",
-    "jsxImportSource": "solid-js",
     "noEmit": true,
     "moduleResolution": "bundler",
     "moduleDetection": "force",
+    "sourceMap": true,
     "skipLibCheck": true,
     "strict": true,
     "noUnusedLocals": true,

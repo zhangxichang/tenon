@@ -18,7 +18,7 @@ func main() {
 	ctx, exit := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer exit()
 	mux := http.NewServeMux()
-	mux.Handle("/", http.FileServer(http.Dir(".output/public")))
+	mux.Handle("/", http.FileServer(http.Dir("dist")))
 	mux.HandleFunc("/ws", handle_ws)
 	server := http.Server{
 		Addr:    "127.0.0.1:10270",
