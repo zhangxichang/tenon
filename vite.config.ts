@@ -10,6 +10,14 @@ export default defineConfig({
   worker: {
     format: "es",
   },
+  server: {
+    proxy: {
+      "/ws": {
+        target: "ws://localhost:10270",
+        ws: true,
+      },
+    },
+  },
   plugins: [tailwindcss(), svelte()],
   resolve: {
     alias: {

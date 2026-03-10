@@ -12,16 +12,21 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-var upgrader = websocket.Upgrader{}
+var upgrader = websocket.Upgrader{
+	CheckOrigin: func(r *http.Request) bool { return true },
+}
 
 func main() {
 	ctx, exit := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer exit()
+	devMode := len(os.Args) > 1 && os.Args[1] == "--dev"
 	mux := http.NewServeMux()
-	mux.Handle("/", http.FileServer(http.Dir("dist")))
+	if !devMode {
+		mux.Handle("/", http.FileServer(http.Dir("dist")))
+	}
 	mux.HandleFunc("/ws", handle_ws)
 	server := http.Server{
-		Addr:    "127.0.0.1:10270",
+		Addr:    "localhost:10270",
 		Handler: mux,
 	}
 	go func() {
@@ -30,7 +35,11 @@ func main() {
 			os.Exit(-1)
 		}
 	}()
-	fmt.Println("WebUI: http://localhost:10270")
+	if devMode {
+		fmt.Println("开发模式, WebSocket: ws://localhost:10270/ws")
+	} else {
+		fmt.Println("WebUI: http://localhost:10270")
+	}
 	fmt.Println("按 Ctrl+C 退出")
 	<-ctx.Done()
 	ctx, close_server := context.WithTimeout(context.Background(), 5*time.Second)
