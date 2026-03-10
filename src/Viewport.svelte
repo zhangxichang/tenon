@@ -1,4 +1,5 @@
 <script lang="ts">
+  import "~/style.css";
   import { ViewportStore } from "~/stores/viewport";
   import TaskBoard from "./Viewport/TaskBoard.svelte";
   import { onMount } from "svelte";

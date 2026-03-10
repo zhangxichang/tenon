@@ -4,24 +4,24 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   clearScreen: false,
+  resolve: {
+    alias: {
+      "~": "/src",
+    },
+  },
   build: {
     target: "esnext",
   },
   worker: {
     format: "es",
   },
+  plugins: [tailwindcss(), svelte()],
   server: {
     proxy: {
       "/ws": {
         target: "ws://localhost:10270",
         ws: true,
       },
-    },
-  },
-  plugins: [tailwindcss(), svelte()],
-  resolve: {
-    alias: {
-      "~": "/src",
     },
   },
 });

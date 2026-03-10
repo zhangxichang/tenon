@@ -44,12 +44,10 @@ func main() {
 	<-ctx.Done()
 	ctx, close_server := context.WithTimeout(context.Background(), 5*time.Second)
 	defer close_server()
-	fmt.Println("关闭服务中...")
 	if err := server.Shutdown(ctx); err != nil {
 		fmt.Printf("服务关闭时出错: %v\n", err)
 		os.Exit(-1)
 	}
-	fmt.Println("服务已关闭")
 }
 
 func handle_ws(w http.ResponseWriter, r *http.Request) {
