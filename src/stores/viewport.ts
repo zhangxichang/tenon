@@ -1,21 +1,15 @@
-import type { Store } from "./interface";
+import { RPConnection } from "~/lib/rpcc";
 
-export class ViewportStore implements Store {
-  websocket: WebSocket;
+export class ViewportStore {
+  rpcc: RPConnection;
 
-  private constructor(websocket: WebSocket) {
-    this.websocket = websocket;
+  private constructor(rpcc: RPConnection) {
+    this.rpcc = rpcc;
   }
   static async new() {
-    return new ViewportStore(
-      await new Promise((resolve, reject) => {
-        const websocket = new WebSocket("ws://localhost:10270/ws");
-        websocket.onopen = () => resolve(websocket);
-        websocket.onerror = () => reject(new Error("连接失败"));
-      }),
-    );
+    return new ViewportStore(await RPConnection.new());
   }
-  async cleanup() {
-    this.websocket.close();
+  cleanup() {
+    this.rpcc.cleanup();
   }
 }

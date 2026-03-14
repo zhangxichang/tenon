@@ -7,6 +7,8 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"tenon/pkg/rpcc"
+	"tenon/pkg/rpcfn"
 	"time"
 
 	"github.com/gorilla/websocket"
@@ -24,7 +26,19 @@ func main() {
 	if !devMode {
 		mux.Handle("/", http.FileServer(http.Dir("dist")))
 	}
-	mux.HandleFunc("/ws", handle_ws)
+	mux.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
+		conn, err := upgrader.Upgrade(w, r, nil)
+		if err != nil {
+			fmt.Printf("WebSocket连接升级错误: %v\n", err)
+			return
+		}
+		defer conn.Close()
+		rpcc := rpcc.New(conn)
+		rpcfn.RPCFunction(rpcc)
+		if err := rpcc.Serve(); err != nil {
+			fmt.Printf("RPC服务错误: %v\n", err)
+		}
+	})
 	server := http.Server{
 		Addr:    "localhost:10270",
 		Handler: mux,
@@ -32,7 +46,7 @@ func main() {
 	go func() {
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			fmt.Printf("服务出错: %v\n", err)
-			os.Exit(-1)
+			os.Exit(1)
 		}
 	}()
 	if devMode {
@@ -42,33 +56,10 @@ func main() {
 	}
 	fmt.Println("按 Ctrl+C 退出")
 	<-ctx.Done()
-	ctx, close_server := context.WithTimeout(context.Background(), 5*time.Second)
-	defer close_server()
+	ctx, closeServer := context.WithTimeout(context.Background(), 5*time.Second)
+	defer closeServer()
 	if err := server.Shutdown(ctx); err != nil {
 		fmt.Printf("服务关闭时出错: %v\n", err)
-		os.Exit(-1)
-	}
-}
-
-func handle_ws(w http.ResponseWriter, r *http.Request) {
-	conn, err := upgrader.Upgrade(w, r, nil)
-	if err != nil {
-		fmt.Printf("WebSocket连接升级错误: %v\n", err)
-		os.Exit(-1)
-	}
-	defer conn.Close()
-	if err := handle_conn(conn); err != nil {
-		fmt.Printf("连接处理错误: %v\n", err)
-		os.Exit(-1)
-	}
-}
-
-func handle_conn(conn *websocket.Conn) error {
-	for {
-		_, msg, err := conn.ReadMessage()
-		if err != nil {
-			return err
-		}
-		fmt.Println(string(msg))
+		os.Exit(1)
 	}
 }

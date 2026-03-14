@@ -13,7 +13,7 @@
       if (mounted) {
         store = instance;
       } else {
-        await instance.cleanup();
+        instance.cleanup();
       }
     })();
     return () => {
