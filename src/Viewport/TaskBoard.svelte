@@ -1,10 +1,17 @@
 <script lang="ts">
+  import type { ViewportStore } from "~/stores/viewport";
+
   type Task = {
     id: string;
     name: string;
     description: string;
   };
+
+  const props: { viewport_store: ViewportStore } = $props();
   const tasks: Task[] = [];
+  (async () => {
+    await props.viewport_store.rpcc.test();
+  })();
 </script>
 
 <div class="flex items-center justify-between p-4">
@@ -13,6 +20,6 @@
 </div>
 <div class="min-h-0 overflow-y-auto">
   {#each tasks as task (task.id)}
-    <div>{task.name}</div>
+    <button>{task.name}</button>
   {/each}
 </div>

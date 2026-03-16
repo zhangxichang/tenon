@@ -8,7 +8,7 @@ import (
 	"os/signal"
 	"syscall"
 	"tenon/pkg/rpcc"
-	"tenon/pkg/rpcfn"
+	"tenon/pkg/rpcstate"
 	"time"
 
 	"github.com/gorilla/websocket"
@@ -34,7 +34,7 @@ func main() {
 		}
 		defer conn.Close()
 		rpcc := rpcc.New(conn)
-		rpcfn.RPCFunction(rpcc)
+		rpcstate.New().Register(rpcc)
 		if err := rpcc.Serve(); err != nil {
 			fmt.Printf("RPC服务错误: %v\n", err)
 		}

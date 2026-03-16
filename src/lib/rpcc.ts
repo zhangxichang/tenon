@@ -1,3 +1,5 @@
+import type { MethodCall, MethodResult } from "./types";
+
 export class RPConnection {
   private websocket: WebSocket;
 
@@ -15,5 +17,27 @@ export class RPConnection {
   }
   cleanup() {
     this.websocket.close();
+  }
+  async call<T>(method: string, params?: unknown[]) {
+    return await new Promise<T>((resolve, reject) => {
+      this.websocket.onerror = () => reject(new Error("连接失败"));
+      this.websocket.send(
+        JSON.stringify({
+          id: 0,
+          method,
+          params: params ?? [],
+        } satisfies MethodCall),
+      );
+      this.websocket.onmessage = (e: MessageEvent<string>) => {
+        const { ok, err }: MethodResult<T> = JSON.parse(e.data);
+        if (err !== null) {
+          reject(err);
+        }
+        resolve(ok);
+      };
+    });
+  }
+  async test() {
+    console.info(await this.call<string>("echo", ["你好"]));
   }
 }

@@ -26,7 +26,7 @@
 <div class="absolute w-dvw h-dvh flex flex-col">
   {#if store}
     {#if view === "TaskBoard"}
-      <TaskBoard />
+      <TaskBoard viewport_store={store} />
     {/if}
   {/if}
 </div>

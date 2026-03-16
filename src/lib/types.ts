@@ -3,8 +3,8 @@ export type MethodCall = {
   method: string;
   params: unknown[];
 };
-export type MethodResult<T> = {
+export type MethodResult<T = null> = {
   id: number;
-  ok: T | null;
+  ok: T;
   err: string | null;
 };
