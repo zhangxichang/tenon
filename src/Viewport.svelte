@@ -2,11 +2,10 @@
   import "~/style.css";
   import { ViewportStore } from "~/stores/viewport";
   import TaskBoard from "./Viewport/TaskBoard.svelte";
-  import { onMount } from "svelte";
 
   let store = $state<ViewportStore>();
   const view = $state<"TaskBoard">("TaskBoard");
-  onMount(() => {
+  $effect(() => {
     let mounted = true;
     (async () => {
       const instance = await ViewportStore.new();

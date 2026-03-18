@@ -1,4 +1,4 @@
-import type { MethodCall, MethodResult } from "./types";
+import type { MethodCall, MethodResult, Task } from "./types";
 
 export class RPConnection {
   private websocket: WebSocket;
@@ -37,7 +37,7 @@ export class RPConnection {
       };
     });
   }
-  async test() {
-    console.info(await this.call<string>("echo", ["你好"]));
+  async get_all_task() {
+    return await this.call<Task[]>("get_all_task");
   }
 }
