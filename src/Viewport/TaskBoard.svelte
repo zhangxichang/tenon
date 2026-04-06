@@ -1,13 +1,22 @@
 <script lang="ts">
-  import type { Task } from "~/lib/types";
-  import type { ViewportStore } from "~/stores/viewport";
+import type { Task } from "~/lib/types";
+import type { ViewportStore } from "~/stores/viewport";
 
-  const props: { viewport_store: ViewportStore } = $props();
-  let selected_task = $state<Task>();
+const props: { viewport_store: ViewportStore } = $props();
+let selected_task = $state<Task>();
+let create_task_dialog = $state<HTMLDialogElement>();
 </script>
 
-<div class="flex items-center border-b p-4">
+<dialog
+  bind:this={create_task_dialog}
+  onclick={() => create_task_dialog?.close()}
+></dialog>
+
+<div class="flex items-center border-b p-4 justify-between">
   <span class="select-none">任务看板</span>
+  <button class="border px-1" onclick={() => create_task_dialog?.showModal()}
+    >创建任务</button
+  >
 </div>
 <div class="min-h-0 flex-1 relative flex">
   <div
