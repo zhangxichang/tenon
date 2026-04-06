@@ -1,10 +1,10 @@
 <script lang="ts">
-import type { Task } from "~/lib/types";
-import type { ViewportStore } from "~/stores/viewport";
+  import type { Task } from "~/lib/types";
+  import type { ViewportStore } from "~/stores/viewport";
 
-const props: { viewport_store: ViewportStore } = $props();
-let selected_task = $state<Task>();
-let create_task_dialog = $state<HTMLDialogElement>();
+  const props: { viewport_store: ViewportStore } = $props();
+  let selected_task = $state<Task>();
+  let create_task_dialog = $state<HTMLDialogElement>();
 </script>
 
 <dialog

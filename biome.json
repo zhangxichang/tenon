@@ -6,7 +6,7 @@
 		"useIgnoreFile": true
 	},
 	"files": {
-		"includes": ["**", "!**/.obsidian"]
+		"includes": ["**", "!**/*.svelte"]
 	},
 	"linter": {
 		"enabled": false
